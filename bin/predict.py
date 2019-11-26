@@ -16,12 +16,6 @@ import os
 # Import fasta, cpat, diamond files from cmnd line #
 ####################################################
 
-# function to test if output directory string is a directory
-def dir_path(string):
-    if os.path.isdir(string):
-        return string
-    else:
-        raise NotADirectoryError(string)
 
 usage = "usage: %prog [options] -f transcript.fa -c cpat.csv -d diamond.out"
 
@@ -32,7 +26,7 @@ parser.add_argument("-d", "--diamond_out", dest="diam_out", required=True, metav
 parser.add_argument("-s", "--score_cutoff", dest="score_cut", type=float, default=0.5, metavar="s", help="Minimum cutoff score for the lncRNA prediction (Default: 0.5)")
 parser.add_argument("-o", "--outDir", dest = "outDir",
         required = False, metavar = "Output directory location",
-        type = dir_path, help = "Location to put the output files")
+        type = str, help = "Location to put the output files")
 
 args = parser.parse_args()
 
@@ -44,7 +38,7 @@ fasta_path = os.path.dirname(args.trans_fasta)
 
 """set path of outputs to the location of the input fasta
 if no output directory (-o, --outDir) is specified"""
-if args.outDir == 0:
+if len(args.outDir) == 0:
     out = fasta_path
 else:
     out = args.outDir
